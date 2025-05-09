@@ -39,6 +39,8 @@ export JAVA_HOME=$(/usr/libexec/java_home -v21)
 export PATH=$JAVA_HOME/bin:$PATH
 java -version
 
+appium 9.2.2
+
 ### 1. Build the project (Maven)
 ```
 mvn clean install
