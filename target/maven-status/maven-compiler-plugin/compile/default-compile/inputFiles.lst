@@ -1,0 +1,15 @@
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/base/BaseElement.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/base/BaseScreen.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/config/Config.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/elements/Button.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/elements/CheckBox.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/elements/Input.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/elements/Label.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/ScreenFactory.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/ScreenResolver.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/android/AbstractScreenAndroid.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/android/AndroidScreenFactory.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/android/FirstScreenAndroid.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/ios/AbstractScreenIOS.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/ios/FirstScreenIOS.java
+/Users/dzmitryananyeu/WebstormProjects/java_appium/src/main/java/screens/ios/IosScreenFactory.java

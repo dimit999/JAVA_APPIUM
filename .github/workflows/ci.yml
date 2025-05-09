@@ -1,0 +1,54 @@
+name: Java Appium CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Mobile Platform (ANDROID or IOS)'
+        required: true
+        default: 'ANDROID'
+      device_name:
+        description: 'Device Name (e.g., Android Emulator, iPhone 13)'
+        required: false
+        default: 'Android Emulator'
+      remote_url:
+        description: 'Remote URL for Appium/BrowserStack (optional)'
+        required: false
+        default: ''
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      PLATFORM: ${{ github.event.inputs.platform }}
+      DEVICE_NAME: ${{ github.event.inputs.device_name }}
+      REMOTE_URL: ${{ github.event.inputs.remote_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+      - name: Run Tests
+        run: mvn test
+        env:
+          PLATFORM: ${{ env.PLATFORM }}
+          DEVICE_NAME: ${{ env.DEVICE_NAME }}
+          REMOTE_URL: ${{ env.REMOTE_URL }}
+
+      # Optionally add steps for BrowserStack/Appium server setup here
+      # For BrowserStack, set REMOTE_URL to the BrowserStack hub URL and configure credentials as needed
