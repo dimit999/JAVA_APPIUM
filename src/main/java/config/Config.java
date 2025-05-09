@@ -19,8 +19,9 @@ public class Config {
     public static final String APPIUM_SERVER_HOST = getConfig("APPIUM_SERVER_HOST", "127.0.0.1");
     public static final String APPIUM_SERVER_PORT = getConfig("APPIUM_SERVER_PORT", "4723");
     public static final String PLATFORM = getConfig("PLATFORM", "ANDROID");
-    public static final String DEVICE_NAME = getConfig("DEVICE_NAME", "Android Emulator");
+    public static final String DEVICE_NAME = getConfig("DEVICE_NAME", "Pixel_7_Pro_API_35");
     public static final String REMOTE_URL = getConfig("REMOTE_URL", ""); // For BrowserStack
+    public static final String DEVICES_JSON_PATH =  getConfig("DEVICES_JSON_PATH", "src/main/java/config/devices.json");
 
     public static final Map<String, Object> IOS_CAPABILITIES = new HashMap<String, Object>() {{
         put("automationName", "XCUITest");
@@ -30,7 +31,6 @@ public class Config {
         put("wdaConnectionTimeout", 20000);
         put("wdaEventloopIdleDelay", 5);
         put("waitForQuiescence", false);
-        put("deviceName", DEVICE_NAME);
     }};
 
     public static final Map<String, Object> ANDROID_CAPABILITIES = new HashMap<String, Object>() {{
@@ -40,7 +40,7 @@ public class Config {
         put("newCommandTimeout", 120);
         put("avdLaunchTimeout", 120000);
         put("avdReadyTimeout", 120000);
-        put("deviceName", DEVICE_NAME);
+        put("avd", DEVICE_NAME);
     }};
 
     public static JSONObject getTestData(String filePath) {

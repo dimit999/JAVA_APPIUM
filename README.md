@@ -26,12 +26,16 @@ This framework is designed for cross-platform (Android & iOS) native mobile app 
 check java version:
 java --version
 brew install openjdk@21
+
 ## Core Technologies
 - Java 21
 
+node 23
+nvm use 23
+
 how to setup java 21
-/usr/libexec/java_home -V
-export JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+export JAVA_HOME=$(/usr/libexec/java_home -v21)
 export PATH=$JAVA_HOME/bin:$PATH
 java -version
 
@@ -52,7 +56,7 @@ mvn -Dtest=YourTestClassName test
 
 ### 4. Set environment variables (example for Mac/Linux)
 ```
-export PLATFORM=ANDROID
+export PLATFORM=Android
 export APK_FILE_PATH=/path/to/app.apk
 export IPA_FILE_PATH=/path/to/app.ipa
 export APP_FILE_PATH=/path/to/app.app

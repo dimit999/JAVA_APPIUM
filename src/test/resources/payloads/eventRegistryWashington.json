@@ -1,0 +1,10 @@
+{
+  "resultType": "events",
+  "conceptUri": "http://en.wikipedia.org/wiki/Denzel_Washington",
+  "eventsPage": 1,
+  "eventsCount": 5,
+  "eventsSortBy": "rel",
+  "eventsSortByAsc": false,
+  "eventsArticleBodyLen": -1,
+  "forceMaxDataTimeWindow": 31
+}

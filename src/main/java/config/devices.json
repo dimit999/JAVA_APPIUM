@@ -1,0 +1,67 @@
+{
+  "Pixel_7_Pro_API_35": {
+    "capabilities": {
+      "platformName": "Android",
+      "deviceName": "Pixel_7_Pro",
+      "avd": "Pixel_7_Pro_API_35"
+    }
+  },
+  "iPhone_Xs_real": {
+    "capabilities": {
+      "platformName": "iOS",
+      "deviceName": "iPhone Xs",
+      "udid": "00008020-001C4C3C3606002E"
+    }
+  },
+  "Pixel_9_Pro_API_35": {
+    "capabilities": {
+      "platformName": "Android",
+      "deviceName": "Pixel_9_Pro",
+      "avd": "Pixel_9_Pro_API_35"
+    }
+  },
+  "Galaxy 10 plus": {
+    "capabilities": {
+      "platformName": "Android",
+      "deviceName": "Galaxy 10",
+      "udid": "R58M70RJ0FP"
+    }
+  },
+  "Huawei": {
+    "capabilities": {
+      "platformName": "Android",
+      "deviceName": "Huawei",
+      "udid": "AQH7N18A10001699",
+      "automationName": "UiAutomator1"
+    }
+  },
+  "iPhone 6 real": {
+    "capabilities": {
+      "platformName": "iOS",
+      "udid": "8ca2b5bec1d2e5d461e50296ddcb2cff625680a0",
+      "deviceName": "iPhone 6"
+    }
+  },
+  "iPhone 11 Pro Max": {
+    "capabilities": {
+      "platformName": "iOS",
+      "platformVersion": "14.3",
+      "deviceName": "iPhone 11 Pro Max"
+    }
+  },
+  "iPhone X": {
+    "capabilities": {
+      "platformName": "iOS",
+      "platformVersion": "12.2",
+      "deviceName": "iPhone X"
+    }
+  },
+  "iPad Real": {
+    "capabilities": {
+      "platformName": "iOS",
+      "platformVersion": "12.4.1",
+      "udid": "9023d16a0bd92e4b0bc31a1c8201386e3057856f",
+      "deviceName": "iPhone 6"
+    }
+  }
+}
