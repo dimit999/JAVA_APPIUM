@@ -14,7 +14,7 @@ on:
       parallel:
         description: 'Max parallel jobs'
         required: false
-        default: '2'
+        default: '1'
       remote_url:
         description: 'Remote URL for Appium/BrowserStack (optional)'
         required: false
