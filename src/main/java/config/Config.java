@@ -22,6 +22,7 @@ public class Config {
     public static final String DEVICE_NAME = getConfig("DEVICE_NAME", "Pixel_7_Pro_API_35");
     public static final String REMOTE_URL = getConfig("REMOTE_URL", ""); // For BrowserStack
     public static final String DEVICES_JSON_PATH =  getConfig("DEVICES_JSON_PATH", "src/main/java/config/devices.json");
+    public static final int DEFAULT_TIMEOUT = 30; // or your desired default in seconds
 
     public static final Map<String, Object> IOS_CAPABILITIES = new HashMap<String, Object>() {{
         put("automationName", "XCUITest");

@@ -1,12 +1,11 @@
 package elements;
 
 import base.BaseElement;
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
 
 public class CheckBox extends BaseElement {
-    public CheckBox(AppiumDriver driver, WebElement element) {
-        super(driver, element);
+    public CheckBox(By selector, String name) {
+        super(selector, name);
     }
     // Add checkbox-specific methods if needed
 }

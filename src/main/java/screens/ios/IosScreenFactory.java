@@ -1,18 +1,44 @@
 package screens.ios;
 
-import io.appium.java_client.AppiumDriver;
-import screens.base.FirstScreen;
+import screens.base.MainScreen;
 import screens.base.ScreenFactory;
+import screens.base.introScreens.*;
+import screens.ios.introScreens.*;
 
 public class IosScreenFactory implements ScreenFactory {
-    private AppiumDriver driver;
 
-    public IosScreenFactory(AppiumDriver driver) {
-        this.driver = driver;
+    @Override
+    public WalletEntryScreen walletEntryScreen() {
+        return new WalletEntryScreenIOS();
     }
 
     @Override
-    public FirstScreen firstScreen() {
-        return new FirstScreenIOS(this.driver);
+    public CreatePasscodeScreen createPasscodeScreen() {
+        return new CreatePasscodeScreenIOS();
+    }
+
+    @Override
+    public ConfirmPasscodeScreen confirmPasscodeScreen() {
+        return new ConfirmPasscodeScreenIOS();
+    }
+
+    @Override
+    public EntryNotificationScreen entryNotificationScreen() {
+        return new EntryNotificationScreenIOS();
+    }
+
+    @Override
+    public SuccessWalletReadyScreen successWalletReadyScreen() {
+        return new SuccessWalletReadyScreenIOS();
+    }
+
+    @Override
+    public WhatIsNewScreen whatIsNewScreen() {
+        return new WhatIsNewScreenIOS();
+    }
+
+    @Override
+    public MainScreen mainScreen() {
+        return new MainScreenIOS();
     }
 }

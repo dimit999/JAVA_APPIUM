@@ -1,5 +1,20 @@
 package screens.base;
 
+import screens.base.introScreens.*;
+
 public interface ScreenFactory {
-    FirstScreen firstScreen();
+    WalletEntryScreen walletEntryScreen();
+
+    CreatePasscodeScreen createPasscodeScreen();
+
+    ConfirmPasscodeScreen confirmPasscodeScreen();
+
+    EntryNotificationScreen entryNotificationScreen();
+
+    SuccessWalletReadyScreen successWalletReadyScreen();
+
+    WhatIsNewScreen whatIsNewScreen();
+
+    MainScreen mainScreen();
 }
+

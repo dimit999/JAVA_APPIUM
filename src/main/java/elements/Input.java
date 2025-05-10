@@ -2,15 +2,15 @@ package elements;
 
 import base.BaseElement;
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
 
 public class Input extends BaseElement {
-    public Input(AppiumDriver driver, WebElement element) {
-        super(driver, element);
+    public Input(By selector, String name) {
+        super(selector, name);
     }
 
     public void setText(String text) {
-        element.clear();
-        element.sendKeys(text);
+        driver.findElement(selector).clear();
+        driver.findElement(selector).sendKeys(text);
     }
 }
