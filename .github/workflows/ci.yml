@@ -7,17 +7,41 @@ on:
         description: 'Mobile Platform (ANDROID or IOS)'
         required: true
         default: 'ANDROID'
+      device_names:
+        description: 'Comma-separated device names (e.g. Pixel_7_Pro_API_35r,Pixel_5_API_30)'
+        required: true
+        default: 'Pixel_7_Pro_API_35r'
+      parallel:
+        description: 'Max parallel jobs'
+        required: false
+        default: '2'
       remote_url:
         description: 'Remote URL for Appium/BrowserStack (optional)'
         required: false
         default: ''
 
 jobs:
+  set-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          devices="${{ github.event.inputs.device_names }}"
+          arr=()
+          IFS=',' read -ra ADDR <<< "$devices"
+          for d in "${ADDR[@]}"; do arr+=("$d"); done
+          json=$(printf '%s\n' "${arr[@]}" | jq -R . | jq -s .)
+          echo "matrix=$json" >> $GITHUB_OUTPUT
+
   build-and-test:
+    needs: set-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        device_name: [Pixel_7_Pro_API_35r, Pixel_5_API_30, iPhone_13]
+        device_name: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
+      max-parallel: ${{ github.event.inputs.parallel }}
     env:
       PLATFORM: ${{ github.event.inputs.platform }}
       DEVICE_NAME: ${{ matrix.device_name }}
