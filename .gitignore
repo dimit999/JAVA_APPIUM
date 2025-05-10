@@ -12,6 +12,8 @@ target/
 idea
 
 target
+target/
+.target
 
 *.iws
 *.iml

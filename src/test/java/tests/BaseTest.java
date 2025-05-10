@@ -1,3 +1,5 @@
+package tests;
+
 import device.DriverManager;
 import io.appium.java_client.AppiumDriver;
 import org.junit.After;
@@ -13,20 +15,11 @@ public abstract class BaseTest {
     public void setUp() throws Exception {
         DriverManager.createDriver();
         screenFactory = new ScreenResolver().getFactory();
-//        launchDefaultFirstScreen();
     }
-//
-//    // Unified method to launch first screen for any platform
-//    protected void launchDefaultFirstScreen() {
-//        BaseScreen firstScreen = screenFactory.walletEntryPage();
-//        assert firstScreen.isAt();
-//    }
+
 
     @After
     public void tearDown() {
         DriverManager.quitDriver();
-//        if (driver != null) {
-//            driver.quit();
-//        }
     }
 }

@@ -1,3 +1,5 @@
+package tests;
+
 import junit.framework.Assert;
 import org.junit.Test;
 import screens.base.MainScreen;
