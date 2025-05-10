@@ -8,9 +8,9 @@ on:
         required: true
         default: 'ANDROID'
       device_names:
-        description: 'Comma-separated device names (e.g. Pixel_7_Pro_API_35r,Pixel_5_API_30)'
+        description: 'Comma-separated device names (e.g. Pixel_7_Pro_API_35,Pixel_5_API_30)'
         required: true
-        default: 'Pixel_7_Pro_API_35r'
+        default: 'Pixel_7_Pro_API_35'
       parallel:
         description: 'Max parallel jobs'
         required: false
