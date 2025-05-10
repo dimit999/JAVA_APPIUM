@@ -71,9 +71,5 @@ Open Allure report
 
 - All configuration is managed in `src/main/resources/config.properties` and can be overridden via command line.
 - Device capabilities are defined in `src/main/java/config/devices.json`.
-- Test results are output to `target/surefire-reports`.
+- Test results: generate allure
 - For iOS, run on macOS with Xcode and required simulators/devices.
-
----
-
-**For any issues or contributions, please open a pull request or create an issue.**
