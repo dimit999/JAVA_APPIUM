@@ -7,10 +7,6 @@ on:
         description: 'Mobile Platform (ANDROID or IOS)'
         required: true
         default: 'ANDROID'
-      device_name:
-        description: 'Device Name (e.g., Android Emulator, iPhone 13)'
-        required: false
-        default: 'Android Emulator'
       remote_url:
         description: 'Remote URL for Appium/BrowserStack (optional)'
         required: false
@@ -19,9 +15,12 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        device_name: [Pixel_7_Pro_API_35r, Pixel_5_API_30, iPhone_13]
     env:
       PLATFORM: ${{ github.event.inputs.platform }}
-      DEVICE_NAME: ${{ github.event.inputs.device_name }}
+      DEVICE_NAME: ${{ matrix.device_name }}
       REMOTE_URL: ${{ github.event.inputs.remote_url }}
     steps:
       - name: Checkout code
