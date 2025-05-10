@@ -1,29 +1,46 @@
 package config;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Config {
-    public static String getConfig(String key, String defaultVal) {
-        return System.getProperty(key, System.getenv().getOrDefault(key, defaultVal));
+    private static final Properties props = new Properties();
+
+    static {
+        try (InputStream input = Config.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input != null) {
+                props.load(input);
+            }
+        } catch (IOException e) {
+            System.err.println("Could not load config.properties: " + e.getMessage());
+        }
     }
-    public static final String APP_FILE_PATH = getConfig("APP_FILE_PATH", null);
-    public static final String APK_FILE_PATH = getConfig("APK_FILE_PATH", "/Users/dzmitryananyeu/Downloads/latest.apk");
-    public static final String IPA_FILE_PATH = getConfig("IPA_FILE_PATH", "/Users/dzmitryananyeu/XXX.ipa");
-    public static final boolean CAPTURE_LOG = "True".equalsIgnoreCase(getConfig("CAPTURE_LOG", "False"));
-    public static final String APPIUM_SERVER_HOST = getConfig("APPIUM_SERVER_HOST", "127.0.0.1");
-    public static final String APPIUM_SERVER_PORT = getConfig("APPIUM_SERVER_PORT", "4723");
-    public static final String PLATFORM = getConfig("PLATFORM", "ANDROID");
-    public static final String DEVICE_NAME = getConfig("DEVICE_NAME", "Pixel_7_Pro_API_35");
-    public static final String REMOTE_URL = getConfig("REMOTE_URL", ""); // For BrowserStack
-    public static final String DEVICES_JSON_PATH =  getConfig("DEVICES_JSON_PATH", "src/main/java/config/devices.json");
-    public static final int DEFAULT_TIMEOUT = 30; // or your desired default in seconds
+
+    public static String get(String key, String defaultValue) {
+        return System.getProperty(key, props.getProperty(key, defaultValue));
+    }
+    public static String get(String key) {
+        return get(key, null);
+    }
+
+    public static final String APP_FILE_PATH = get("APP_FILE_PATH");
+    public static final String APK_FILE_PATH = get("APK_FILE_PATH", "/Users/dzmitryananyeu/Downloads/latest.apk");
+    public static final String IPA_FILE_PATH = get("IPA_FILE_PATH", "/Users/dzmitryananyeu/XXX.ipa");
+    public static final boolean CAPTURE_LOG = "True".equalsIgnoreCase(get("CAPTURE_LOG", "False"));
+    public static final String APPIUM_SERVER_HOST = get("APPIUM_SERVER_HOST", "127.0.0.1");
+    public static final String APPIUM_SERVER_PORT = get("APPIUM_SERVER_PORT", "4723");
+    public static final String PLATFORM = get("PLATFORM", "ANDROID");
+    public static final String DEVICE_NAME = get("DEVICE_NAME", "Pixel_7_Pro_API_35");
+    public static final String REMOTE_URL = get("REMOTE_URL", ""); // For BrowserStack
+    public static final String DEVICES_JSON_PATH = get("DEVICES_JSON_PATH", "src/main/java/config/devices.json");
+    public static final int DEFAULT_TIMEOUT = Integer.parseInt(get("DEFAULT_TIMEOUT", "30"));
 
     public static final Map<String, Object> IOS_CAPABILITIES = new HashMap<String, Object>() {{
         put("automationName", "XCUITest");
@@ -47,7 +64,7 @@ public class Config {
 
     public static JSONObject getTestData(String filePath) {
         JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader(filePath)) {
+        try (java.io.FileReader reader = new java.io.FileReader(filePath)) {
             return (JSONObject) parser.parse(reader);
         } catch (IOException | ParseException e) {
             throw new RuntimeException("Failed to read JSON test data: " + e.getMessage(), e);
