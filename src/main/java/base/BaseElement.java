@@ -9,12 +9,14 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
-import base.Waiters;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseElement {
@@ -32,6 +34,10 @@ public abstract class BaseElement {
         return driver.findElement(selector).getText();
     }
 
+    public WebElement getElement() {
+        return driver.findElement(selector);
+    }
+
     public boolean isDisplayed() {
         try {
             return driver.findElement(selector).isDisplayed();
@@ -40,13 +46,13 @@ public abstract class BaseElement {
         }
     }
 
-//    public void click() {
-//        driver.findElement(selector).click();
-//    }
-
     public List<WebElement> getElements(By locator, int timeoutSeconds) {
         Waiters.waitFor(() -> !driver.findElements(locator).isEmpty(), timeoutSeconds, "Elements not found: " + locator);
         return driver.findElements(locator);
+    }
+
+    public List<WebElement> getElements() {
+        return driver.findElements(selector);
     }
 
     public WebElement scrollToElement(By locator, int timeoutSeconds, int maxSwipes) {
@@ -134,6 +140,64 @@ public abstract class BaseElement {
                 return true;
             } catch (Exception ignored) { return false; }
         }, timeoutSeconds, "Can't action tap element");
+    }
+
+    public List<String> getElementsText() {
+        List<WebElement> elements = driver.findElements(selector);
+        List<String> texts = new ArrayList<>();
+        for (WebElement el : elements) {
+            texts.add(el.getText());
+        }
+        return texts;
+    }
+
+    public Point getLocation() {
+        Waiters.waitFor(() -> {
+            try {
+                WebElement element = driver.findElement(selector);
+                return element.isDisplayed();
+            } catch (StaleElementReferenceException | NoSuchElementException e) {
+                return false;
+            }
+        }, Config.DEFAULT_TIMEOUT, "Element not present or not visible for location retrieval: " + selector);
+
+        try {
+            return driver.findElement(selector).getLocation();
+        } catch (StaleElementReferenceException e) {
+            return getLocation();
+        }
+    }
+
+    /**
+     * Wait until the element's location is stable (does not change between polls).
+     * @param timeoutSeconds How long to wait before giving up
+     * @param pollFrequencyMillis How often to poll the location
+     * @return true if stable, false if timeout
+     */
+    @SuppressWarnings("BusyWait")
+    public boolean waitUntilLocationStable(int timeoutSeconds, int pollFrequencyMillis) {
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < timeoutSeconds * 1000L) {
+            Point firstLocation = getLocation();
+            try {
+                Thread.sleep(pollFrequencyMillis);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+            Point secondLocation = getLocation();
+            if (firstLocation.equals(secondLocation)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Overload with default timeout and poll frequency.
+     */
+    public boolean waitUntilLocationStable() {
+        return waitUntilLocationStable(Config.DEFAULT_TIMEOUT, 200); // 200ms poll frequency
     }
 
     private void swipe(int startX, int startY, int endX, int endY) {

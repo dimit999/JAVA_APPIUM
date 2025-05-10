@@ -1,16 +1,19 @@
 package tests;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 import screens.base.MainScreen;
+import screens.base.SearchScreen;
+import screens.base.SpinnerScreen;
 import screens.base.introScreens.*;
+import java.util.List;
 
 @Tag("mobile")
-public class CreateNewWalletTest extends BaseTest {
+class SearchCryptoTest extends BaseTest {
 
     @Test
-    void CreateWalletTest() {
+    void SearchCryptoFunctionTest() {
         WalletEntryScreen walletEntryScreen = screenFactory.walletEntryScreen();
         walletEntryScreen.tapCreateNewWallet();
 
@@ -31,14 +34,27 @@ public class CreateNewWalletTest extends BaseTest {
         successWalletReadyScreen.tapSkipButton();
 
         WhatIsNewScreen whatIsNewScreen = screenFactory.whatIsNewScreen();
-        if (whatIsNewScreen.isOpened()) {
+        if (whatIsNewScreen.waitForIsOpened()) {
             whatIsNewScreen.tapBackButton();
         }
 
         MainScreen mainScreen = screenFactory.mainScreen();
-        String walletAmount = mainScreen.getWalletAmount();
-        Assert.assertTrue(walletAmount.trim().contains("$0.00"));
+        mainScreen.tapSearchButton();
 
+        SearchScreen searchScreen = screenFactory.searchScreen();
+        String searchValue = "BTC";
+        searchScreen.setSearchText(searchValue);
 
+        SpinnerScreen spinnerScreen = screenFactory.spinnerScreen();
+        spinnerScreen.waitForSpinnerToDisappear();
+        searchScreen.waitForIsOpened();
+
+        List<String> resultTitles = searchScreen.getSearchResultTitles();
+        for (String title : resultTitles) {
+            Assertions.assertTrue(
+                    title.toLowerCase().contains(searchValue.toLowerCase()),
+                    "Search result does not contain search value. Failed item is: " + title
+            );
+        }
     }
 }

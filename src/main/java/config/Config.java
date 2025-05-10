@@ -1,12 +1,13 @@
 package config;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Config {
     public static String getConfig(String key, String defaultVal) {

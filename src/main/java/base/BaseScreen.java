@@ -1,8 +1,8 @@
 package base;
 
+import config.Config;
 import device.DriverManager;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 
@@ -24,9 +24,13 @@ public abstract class BaseScreen {
         }
     }
 
+    public boolean waitForIsOpened() {
+        return waitForIsOpened(Config.DEFAULT_TIMEOUT);
+    }
+
     public boolean waitForIsOpened(int timeoutSeconds) {
         try {
-            Waiters.waitFor(() -> isOpened(), timeoutSeconds, "Screen not opened: " + screenLocator);
+            Waiters.waitFor(this::isOpened, timeoutSeconds, "Screen not opened: " + screenLocator);
             return true;
         } catch (Exception e) {
             return false;

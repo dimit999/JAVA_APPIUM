@@ -13,8 +13,15 @@ public abstract class MainScreen extends BaseScreen {
 
     protected abstract Label walletAmount();
 
+
+    protected abstract Button searchButton();
+
     public String getWalletAmount() {
         return walletAmount().getText();
+    }
+
+    public void tapSearchButton() {
+        searchButton().tap();
     }
 
 }

@@ -41,4 +41,13 @@ public class AndroidScreenFactory implements ScreenFactory {
         return new MainScreenAndroid();
     }
 
+    @Override
+    public SearchScreen searchScreen() {
+        return new SearchScreenAndroid();
+    }
+
+    @Override
+    public SpinnerScreen spinnerScreen() {
+        return new SpinnerScreenAndroid();
+    }
 }

@@ -1,7 +1,6 @@
 package elements;
 
 import base.BaseElement;
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
 public class Input extends BaseElement {

@@ -16,5 +16,9 @@ public interface ScreenFactory {
     WhatIsNewScreen whatIsNewScreen();
 
     MainScreen mainScreen();
+
+    SearchScreen searchScreen();
+
+    SpinnerScreen spinnerScreen();
 }
 

@@ -1,7 +1,10 @@
 package screens.ios;
 
+import screens.android.SpinnerScreenAndroid;
 import screens.base.MainScreen;
 import screens.base.ScreenFactory;
+import screens.base.SearchScreen;
+import screens.base.SpinnerScreen;
 import screens.base.introScreens.*;
 import screens.ios.introScreens.*;
 
@@ -40,5 +43,15 @@ public class IosScreenFactory implements ScreenFactory {
     @Override
     public MainScreen mainScreen() {
         return new MainScreenIOS();
+    }
+
+    @Override
+    public SearchScreen searchScreen() {
+        return new SearchScreenIOS();
+    }
+
+    @Override
+    public SpinnerScreen spinnerScreen() {
+        return new SpinnerScreenIOS();
     }
 }

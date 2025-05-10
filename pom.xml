@@ -9,6 +9,11 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <allure.version>2.24.0</allure.version>
+        <java.version>9.2.2</java.version>
+        <selenium.version>4.18.1</selenium.version>
+        <junit.version>5.10.2</junit.version>
+        <aspectj.version>1.9.20.1</aspectj.version>
+        <threads>1</threads>
     </properties>
     <dependencies>
         <dependency>
@@ -19,12 +24,12 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>9.2.2</version>
+            <version>${java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.18.1</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -34,8 +39,19 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
         </dependency>
     </dependencies>
     <build>
@@ -67,43 +83,38 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                <version>3.2.5</version>-->
-<!--                <configuration>-->
-<!--                    <systemPropertyVariables>-->
-<!--                        <browser>${browser}</browser>-->
-<!--                        <headless>${headless}</headless>-->
-<!--                        <slowMo>${slowMo}</slowMo>-->
-<!--                        <devtools>${devtools}</devtools>-->
-<!--                        <defaultTimeout>${defaultTimeout}</defaultTimeout>-->
-<!--                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>-->
-<!--                        &lt;!&ndash; JUnit 5 parallel execution settings &ndash;&gt;-->
-<!--                        <junit.jupiter.execution.parallel.enabled>true</junit.jupiter.execution.parallel.enabled>-->
-<!--                        <junit.jupiter.execution.parallel.mode.default>concurrent</junit.jupiter.execution.parallel.mode.default>-->
-<!--                        <junit.jupiter.execution.parallel.mode.classes.default>concurrent</junit.jupiter.execution.parallel.mode.classes.default>-->
-<!--                        <junit.jupiter.execution.parallel.config.strategy>fixed</junit.jupiter.execution.parallel.config.strategy>-->
-<!--                        &lt;!&ndash; Use the 'threads' property defined in the POM or passed via command line &ndash;&gt;-->
-<!--                        <junit.jupiter.execution.parallel.config.fixed.parallelism>${threads}</junit.jupiter.execution.parallel.config.fixed.parallelism>-->
-<!--                    </systemPropertyVariables>-->
-<!--                    <properties>-->
-<!--                        <configurationParameters>-->
-<!--                            &lt;!&ndash; Other parameters can go here &ndash;&gt;-->
-<!--                        </configurationParameters>-->
-<!--                    </properties>-->
-<!--                    <argLine>-->
-<!--                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"-->
-<!--                    </argLine>-->
-<!--                </configuration>-->
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>org.aspectj</groupId>-->
-<!--                        <artifactId>aspectjweaver</artifactId>-->
-<!--                        <version>${aspectj.version}</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                        <!-- JUnit 5 parallel execution settings -->
+                        <junit.jupiter.execution.parallel.enabled>true</junit.jupiter.execution.parallel.enabled>
+                        <junit.jupiter.execution.parallel.mode.default>concurrent</junit.jupiter.execution.parallel.mode.default>
+                        <junit.jupiter.execution.parallel.mode.classes.default>concurrent</junit.jupiter.execution.parallel.mode.classes.default>
+                        <junit.jupiter.execution.parallel.config.strategy>fixed</junit.jupiter.execution.parallel.config.strategy>
+                        <!-- Use the 'threads' property defined in the POM or passed via command line -->
+                        <junit.jupiter.execution.parallel.config.fixed.parallelism>${threads}</junit.jupiter.execution.parallel.config.fixed.parallelism>
+                    </systemPropertyVariables>
+                    <properties>
+                        <configurationParameters>
+                            <!-- Other parameters can go here -->
+                        </configurationParameters>
+                    </properties>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
