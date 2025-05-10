@@ -1,11 +1,15 @@
 package tests;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 import screens.base.introScreens.*;
 
 @Tag("mobile")
+@Epic("Wallet")
+@Feature("Passcode")
 class InvalidPassCodeValidationTest extends BaseTest {
 
     @Test

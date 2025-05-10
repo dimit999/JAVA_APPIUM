@@ -4,41 +4,21 @@ import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 import screens.base.MainScreen;
-import screens.base.introScreens.*;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import steps.WalletCreationSteps;
 
 @Tag("mobile")
+@Epic("Wallet")
+@Feature("Create")
 public class CreateNewWalletTest extends BaseTest {
 
     @Test
     void CreateWalletTest() {
-        WalletEntryScreen walletEntryScreen = screenFactory.walletEntryScreen();
-        walletEntryScreen.tapCreateNewWallet();
-
-        CreatePasscodeScreen createPasscodeScreen = screenFactory.createPasscodeScreen();
-        for (int i = 1; i <= 6; i++) {
-            createPasscodeScreen.tapPassCodeNumber(String.valueOf(i));
-        }
-
-        ConfirmPasscodeScreen confirmPasscodeScreen = screenFactory.confirmPasscodeScreen();
-        for (int i = 1; i <= 6; i++) {
-            confirmPasscodeScreen.tapPassCodeNumber(String.valueOf(i));
-        }
-
-        EntryNotificationScreen entryNotificationScreen = screenFactory.entryNotificationScreen();
-        entryNotificationScreen.tapSkipNotifications();
-
-        SuccessWalletReadyScreen successWalletReadyScreen = screenFactory.successWalletReadyScreen();
-        successWalletReadyScreen.tapSkipButton();
-
-        WhatIsNewScreen whatIsNewScreen = screenFactory.whatIsNewScreen();
-        if (whatIsNewScreen.isOpened()) {
-            whatIsNewScreen.tapBackButton();
-        }
+        WalletCreationSteps.createNewWallet(screenFactory);
 
         MainScreen mainScreen = screenFactory.mainScreen();
         String walletAmount = mainScreen.getWalletAmount();
         Assert.assertTrue(walletAmount.trim().contains("$0.00"));
-
-
     }
 }

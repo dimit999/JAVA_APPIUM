@@ -3,10 +3,6 @@ package base;
 import config.Config;
 import device.DriverManager;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
@@ -15,6 +11,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,8 @@ public abstract class BaseElement {
         this.selector = selector;
         this.name = name;
     }
+
+    private static final String POINTER_INPUT_NAME = "finger";
 
     public String getText() {
         return driver.findElement(selector).getText();
@@ -47,7 +49,8 @@ public abstract class BaseElement {
     }
 
     public List<WebElement> getElements(By locator, int timeoutSeconds) {
-        Waiters.waitFor(() -> !driver.findElements(locator).isEmpty(), timeoutSeconds, "Elements not found: " + locator);
+        Waiters.waitFor(() -> !driver.findElements(locator).isEmpty(), timeoutSeconds,
+                "Elements not found: " + locator);
         return driver.findElements(locator);
     }
 
@@ -68,7 +71,9 @@ public abstract class BaseElement {
                 if (el.isDisplayed()) {
                     return el;
                 }
-            } catch (NoSuchElementException ignored) {}
+            } catch (NoSuchElementException ignored) {
+                return null;
+            }
             swipe(startX, startY, startX, endY);
             swipes++;
         }
@@ -79,8 +84,8 @@ public abstract class BaseElement {
         String platform = driver.getCapabilities().getCapability("platformName").toString().toLowerCase();
         if (platform.contains("android")) {
             driver.findElement(AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
-                ".scrollIntoView(new UiSelector().textContains(\"" + text + "\").instance(0))"
+                    "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
+                            ".scrollIntoView(new UiSelector().textContains(\"" + text + "\").instance(0))"
             ));
         } else if (platform.contains("ios")) {
             driver.findElement(AppiumBy.iOSNsPredicateString("label CONTAINS '" + text + "'"));
@@ -89,7 +94,7 @@ public abstract class BaseElement {
         }
     }
 
-    public void swipeDown(int timeoutSeconds) {
+    public void swipeDown() {
         Dimension size = driver.manage().window().getSize();
         int startX = size.width / 2;
         int startY = (int) (size.height * 0.6);
@@ -113,23 +118,43 @@ public abstract class BaseElement {
     public void longTap(int durationMs, int timeoutSeconds) {
         Waiters.waitFor(() -> {
             try {
-                new TouchAction<>((PerformsTouchActions) driver)
-                    .longPress(PointOption.point(driver.findElement(selector).getLocation()))
-                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(durationMs)))
-                    .release().perform();
+                WebElement element = driver.findElement(selector);
+                int x = element.getLocation().getX();
+                int y = element.getLocation().getY();
+
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, POINTER_INPUT_NAME);
+                Sequence longPress = new Sequence(finger, 1)
+                        .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
+                        .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                        .addAction(new Pause(finger, Duration.ofMillis(durationMs)))
+                        .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+                driver.perform(List.of(longPress));
                 return true;
-            } catch (Exception ignored) { return false; }
+            } catch (Exception ignored) {
+                return false;
+            }
         }, timeoutSeconds, "Can't long tap element");
     }
 
     public void tapViaCoordinates(int timeoutSeconds) {
         Waiters.waitFor(() -> {
             try {
-                new TouchAction<>((PerformsTouchActions) driver)
-                    .tap(PointOption.point(driver.findElement(selector).getLocation()))
-                    .perform();
+                WebElement element = driver.findElement(selector);
+                int x = element.getLocation().getX();
+                int y = element.getLocation().getY();
+
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, POINTER_INPUT_NAME);
+                Sequence tap = new Sequence(finger, 1)
+                        .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
+                        .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                        .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+                driver.perform(List.of(tap));
                 return true;
-            } catch (Exception ignored) { return false; }
+            } catch (Exception ignored) {
+                return false;
+            }
         }, timeoutSeconds, "Can't tap via coordinates");
     }
 
@@ -170,12 +195,12 @@ public abstract class BaseElement {
 
     /**
      * Wait until the element's location is stable (does not change between polls).
-     * @param timeoutSeconds How long to wait before giving up
+     *
+     * @param timeoutSeconds      How long to wait before giving up
      * @param pollFrequencyMillis How often to poll the location
-     * @return true if stable, false if timeout
      */
     @SuppressWarnings("BusyWait")
-    public boolean waitUntilLocationStable(int timeoutSeconds, int pollFrequencyMillis) {
+    public void waitUntilLocationStable(int timeoutSeconds, int pollFrequencyMillis) {
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTime < timeoutSeconds * 1000L) {
             Point firstLocation = getLocation();
@@ -183,28 +208,31 @@ public abstract class BaseElement {
                 Thread.sleep(pollFrequencyMillis);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                return false;
+                return;
             }
             Point secondLocation = getLocation();
             if (firstLocation.equals(secondLocation)) {
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     /**
-     * Overload with default timeout and poll frequency.
+     * Overload with the default timeout and poll frequency.
      */
-    public boolean waitUntilLocationStable() {
-        return waitUntilLocationStable(Config.DEFAULT_TIMEOUT, 200); // 200ms poll frequency
+    public void waitUntilLocationStable() {
+        waitUntilLocationStable(Config.DEFAULT_TIMEOUT, 200);
     }
 
     private void swipe(int startX, int startY, int endX, int endY) {
-        new TouchAction<>((PerformsTouchActions) driver)
-            .press(PointOption.point(startX, startY))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
-            .moveTo(PointOption.point(endX, endY))
-            .release().perform();
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, POINTER_INPUT_NAME);
+        Sequence swipe = new Sequence(finger, 1)
+                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY))
+                .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger, Duration.ofMillis(500))) // equivalent to waitAction
+                .addAction(finger.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), endX, endY))
+                .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(List.of(swipe));
     }
 }

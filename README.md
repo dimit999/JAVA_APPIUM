@@ -1,78 +1,81 @@
-# Java + Appium QA Automation Framework
+# Java Appium Automation Framework
 
-This framework is designed for cross-platform (Android & iOS) native mobile app automation using Java and Appium, following best practices for 2025.
+## Prerequisites
 
-## Structure
-- **src/main/java/base/**: Base classes for screens and elements
-- **src/main/java/screens/**: Platform-specific screen implementations
-- **src/main/java/elements/**: Platform-specific element implementations
-- **src/main/java/config/**: Configuration and capability management
-- **src/test/java/**: Test cases and fixtures
-- **resources/**: Test data (JSON)
+- **Java:** 17+ -> 21 (recommend 21)
+- **Maven:** 3.8+
+- **Node.js & npm:** (for Appium server)
+- **Appium:** 2.x (install globally: `npm install -g appium`)
+- **Android SDK** (for Android tests)
+- **Xcode & Carthage** (for iOS tests, macOS only)
 
-## Key Features
-- Abstract classes for screens and elements, extended by platform-specific implementations
-- Unified configuration via environment variables and JSON files
-- BaseScreen and BaseElement for shared logic
-- Test fixture to launch default first screen before each test
+## Installation
 
-## Getting Started
-1. Set environment variables as needed (see `src/main/java/config/Config.java`)
-2. Place test data in `resources/data.json`
-3. Run tests using your preferred runner (e.g., JUnit)
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/dimit999/JAVA_APPIUM.git
+   cd java_appium
+   ```
+2. Install dependencies and run tests:
+   ```sh
+   mvn clean install -DskipTests
+   ```
+3. Start Appium server:
+   ```sh
+   appium
+   ```
 
-## Commands
+## Running Tests
 
-check java version:
-java --version
-brew install openjdk@21
+- **Run all tests (default config):**
+  ```sh
+  mvn clean test
+  ```
+- **Override config on the fly:**
+  ```sh
+  mvn test -DDEVICE_NAME=Pixel_7_Pro_API_35 -DPLATFORM=ANDROID
+  ```
+- **Generate allure report:**
+Generate (to be sure that you did `brew install allure`)
+`allure generate target/allure-results --clean -o target/allure-report`
 
-## Core Technologies
-- Java 21
+Open Allure report
+`allure open target/allure-report`
 
-node 23
-nvm use 23
+## Code Quality Check (without running tests)
 
-how to setup java 21
-sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
-export JAVA_HOME=$(/usr/libexec/java_home -v21)
-export PATH=$JAVA_HOME/bin:$PATH
-java -version
+- **Run Checkstyle:**
+  ```sh
+  mvn clean verify -DskipTest
+  ```
 
-appium 9.2.2
+## Framework Features
 
-### 1. Build the project (Maven)
-```
-mvn clean install
-```
+- **Cross-platform:** Supports both Android and iOS automation.
+- **Configurable:** Uses `config.properties` for easy runtime configuration and system property overrides.
+- **Parallel Execution:** JUnit 5 + Maven Surefire with configurable parallelism.
+- **Device Locking:** Ensures safe single-device execution even with parallel test scheduling.
+- **Page Object Pattern:** All screens and elements use the Page Object Model for maintainability.
+- **Factory Pattern:** Dynamic screen and driver instantiation via factories.
+- **ThreadLocal Driver:** Isolates driver per test thread.
+- **JSON-based Device Config:** Device capabilities managed via JSON for flexibility.
+- **Extensible:** Easy to add new platforms, devices, or test types.
 
-### 2. Run all tests
-```
-mvn test
-```
+## Design Patterns Used
 
-### 3. Run a specific test class
-```
-mvn -Dtest=YourTestClassName test
-```
-
-### 4. Set environment variables (example for Mac/Linux)
-```
-export PLATFORM=Android
-export APK_FILE_PATH=/path/to/app.apk
-export IPA_FILE_PATH=/path/to/app.ipa
-export APP_FILE_PATH=/path/to/app.app
-export CAPTURE_LOG=True
-```
-
-### 5. Run tests with environment variables inline
-```
-PLATFORM=IOS mvn test
-```
+- **Page Object Model (POM):** Encapsulates UI screens and elements.
+- **Factory Pattern:** For screen and driver instantiation.
+- **Singleton Pattern:** For configuration loading (Config/ConfigLoader).
+- **ThreadLocal:** For thread-safe driver management in parallel tests.
+- **Synchronized Locking:** For serializing device access in parallel test runs.
 
 ## Notes
-- All configuration is in `src/main/java/config/Config.java`.
-- Test data is read from `resources/data.json`.
-- Use JUnit for tests.
+
+- All configuration is managed in `src/main/resources/config.properties` and can be overridden via command line.
+- Device capabilities are defined in `src/main/java/config/devices.json`.
+- Test results are output to `target/surefire-reports`.
+- For iOS, run on macOS with Xcode and required simulators/devices.
 
 ---
+
+**For any issues or contributions, please open a pull request or create an issue.**

@@ -1,12 +1,20 @@
 package elements;
 
 import base.BaseElement;
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
+/**
+ * Represents a label UI element.
+ */
 public class Label extends BaseElement {
-    public Label(By selector, String name) {
+    /**
+     * Constructs a Label element.
+     * @param selector the selector for the label.
+     * @param name the name for reporting.
+     */
+    public Label(final By selector, final String name) {
         super(selector, name);
     }
     // Add label-specific methods if needed
+
 }

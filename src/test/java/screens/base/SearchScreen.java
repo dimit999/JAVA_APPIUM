@@ -3,7 +3,6 @@ package screens.base;
 import base.BaseScreen;
 import base.Waiters;
 import config.Config;
-import elements.Button;
 import elements.Input;
 import elements.Label;
 import org.openqa.selenium.By;
