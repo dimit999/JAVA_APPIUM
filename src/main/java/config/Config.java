@@ -13,8 +13,8 @@ public class Config {
         return System.getProperty(key, System.getenv().getOrDefault(key, defaultVal));
     }
     public static final String APP_FILE_PATH = getConfig("APP_FILE_PATH", null);
-    public static final String APK_FILE_PATH = getConfig("APK_FILE_PATH", "/Users/dzmitryananyeu/PLACES/PLACES_APPS/ANDROID/app-release.apk");
-    public static final String IPA_FILE_PATH = getConfig("IPA_FILE_PATH", "/Users/dzmitryananyeu/PLACES/PLACES_APPS/IOS/Places.ipa");
+    public static final String APK_FILE_PATH = getConfig("APK_FILE_PATH", "/Users/dzmitryananyeu/Downloads/latest.apk");
+    public static final String IPA_FILE_PATH = getConfig("IPA_FILE_PATH", "/Users/dzmitryananyeu/XXX.ipa");
     public static final boolean CAPTURE_LOG = "True".equalsIgnoreCase(getConfig("CAPTURE_LOG", "False"));
     public static final String APPIUM_SERVER_HOST = getConfig("APPIUM_SERVER_HOST", "127.0.0.1");
     public static final String APPIUM_SERVER_PORT = getConfig("APPIUM_SERVER_PORT", "4723");
