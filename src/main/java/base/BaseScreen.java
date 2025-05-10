@@ -25,7 +25,7 @@ public abstract class BaseScreen {
     public BaseScreen(final By screenLocator) {
         this.driver = DriverManager.getDriver();
         this.screenLocator = screenLocator;
-        waitForIsOpened(Config.DEFAULT_TIMEOUT);
+        waitForIsOpened(Config.DEFAULT_WAIT_POP_UP_TIMEOUT);
     }
 
     /**

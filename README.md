@@ -20,10 +20,12 @@
    ```sh
    mvn clean install -DskipTests
    ```
-3. Start Appium server:
+3. config.properties: APK_FILE_PATH -> Update path to your local file: 
+4. Start Appium server:
    ```sh
-   appium
+   appium --address 127.0.0.1 --port 4723 --session-override 
    ```
+5. Open your Emulator or Simulator: by default it is Pixel_7_Pro_API_35 from Android Studio
 
 ## Running Tests
 
@@ -51,7 +53,7 @@ Open Allure report
 
 - **Cross-platform:** Supports both Android and iOS automation.
 - **Configurable:** Uses `config.properties` for easy runtime configuration and system property overrides.
-- **Parallel Execution:** JUnit 5 + Maven Surefire with configurable parallelism.
+- **Parallel Execution:** JUnit 5 + Maven Surefire with configurable parallelism: template is ready.
 - **Device Locking:** Ensures safe single-device execution even with parallel test scheduling.
 - **Page Object Pattern:** All screens and elements use the Page Object Model for maintainability.
 - **Factory Pattern:** Dynamic screen and driver instantiation via factories.

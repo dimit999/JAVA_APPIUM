@@ -6,6 +6,13 @@
       "avd": "Pixel_7_Pro_API_35"
     }
   },
+  "Nexus_7_API_33": {
+    "capabilities": {
+      "platformName": "Android",
+      "deviceName": "Nexus_7_API_33",
+      "avd": "Nexus_7_API_33"
+    }
+  },
   "iPhone_Xs_real": {
     "capabilities": {
       "platformName": "iOS",

@@ -79,4 +79,22 @@ public class DriverManager {
             driverThreadLocal.remove();
         }
     }
+
+    /**
+     * Hides the keyboard if it is visible.
+     * Works for AndroidDriver and IOSDriver.
+     */
+    public static void hideKeyboardIfVisible() {
+        AppiumDriver driver = getDriver();
+        if (driver == null) return;
+        try {
+            if (driver instanceof AndroidDriver) {
+                ((AndroidDriver) driver).hideKeyboard();
+            } else if (driver instanceof IOSDriver) {
+                ((IOSDriver) driver).hideKeyboard();
+            }
+        } catch (Exception ignored) {
+            // Ignore: keyboard not present or not supported
+        }
+    }
 }
