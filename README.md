@@ -45,9 +45,7 @@ Open Allure report
 ## Code Quality Check (without running tests)
 
 - **Run Checkstyle:**
-  ```sh
-  mvn clean verify -DskipTest
-  ```
+  `mvn clean verify -DskipTests`
 
 ## Framework Features
 

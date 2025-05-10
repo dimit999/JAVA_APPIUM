@@ -29,16 +29,19 @@ public final class Waiters {
 
     /**
      * Waits until the given expression returns true or the timeout expires.
-     * Throws TimeoutException with the given message if the condition is not met.
+     * Throws TimeoutException with the given message if the condition is not
+     * met.
      *
      * @param expression     the boolean condition to evaluate
      * @param timeoutSeconds the timeout in seconds
      * @param message        the exception message on timeout
      * @throws TimeoutException if the condition is not met in time
      */
-    public static void waitFor(final BooleanSupplier expression, final int timeoutSeconds,
+    public static void waitFor(final BooleanSupplier expression,
+                               final int timeoutSeconds,
                                final String message) {
-        long end = System.currentTimeMillis() + (long) timeoutSeconds * SECOND_TO_MILLIS;
+        long end = System.currentTimeMillis() + (
+                long) timeoutSeconds * SECOND_TO_MILLIS;
         Throwable lastException = null;
         while (System.currentTimeMillis() < end) {
             try {
@@ -54,19 +57,23 @@ public final class Waiters {
                 // Ignore interruption
             }
         }
-        throw new TimeoutException(message, lastException);
+        throw new TimeoutException(message,
+                lastException);
     }
 
     /**
-     * Waits for the given expression to become true, but only for a fixed timeout.
+     * Waits for the given expression to become true,
+     * but only for a fixed timeout.
      * Returns true if the condition is met, false otherwise.
      *
      * @param expression     the boolean condition to evaluate
      * @param timeoutSeconds the timeout in seconds
      * @return true if the condition is met, false otherwise
      */
-    public static boolean waitForFixedTime(final BooleanSupplier expression, final int timeoutSeconds) {
-        long end = System.currentTimeMillis() + (long) timeoutSeconds * SECOND_TO_MILLIS;
+    public static boolean waitForFixedTime(final BooleanSupplier expression,
+                                           final int timeoutSeconds) {
+        long end = System.currentTimeMillis() + (
+                long) timeoutSeconds * SECOND_TO_MILLIS;
         while (System.currentTimeMillis() < end) {
             try {
                 if (expression.getAsBoolean()) {

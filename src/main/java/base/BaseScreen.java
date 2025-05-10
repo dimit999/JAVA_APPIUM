@@ -19,7 +19,8 @@ public abstract class BaseScreen {
     /**
      * Constructs a BaseScreen and waits until the screen is opened.
      *
-     * @param screenLocator the locator for the unique element identifying the screen
+     * @param screenLocator the locator for the unique element
+     *                      identifying the screen
      */
     public BaseScreen(final By screenLocator) {
         this.driver = DriverManager.getDriver();
