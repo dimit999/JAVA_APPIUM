@@ -53,7 +53,7 @@ This document contains manual test cases based on Create Wallet functionality. E
 **Step 9:**
 - The wallet is created successfully.
 - The main screen is loaded.
-- The default total amount is displayed as `$0.00` on the main screen.
+- The default total amount is displayed as `$0.00` and `$0.00 (0.00%)` on the main screen.
 
 **Step 12:**
 - The "Notifications" screen is opened.
@@ -61,6 +61,7 @@ This document contains manual test cases based on Create Wallet functionality. E
 
 **Step 14:**
 - Lock method: Passcode / Face ID is enabled.
+
 **Step 16:**
 - Possible to unlock the app using passcode or Face ID.
 
@@ -123,7 +124,7 @@ Same need to validate for call/message during os such process.
 - Enter passcode screen is displayed.
 
 **BUG HERE**
-Pop up with allow FACE ID is opened automatically under Enter passcode screen, 
+1. Pop up with allow FACE ID is opened automatically under Enter passcode screen, 
 if click "Allow" you are redirected to Setup Face ID screen again (but you already allowed this). 
 Need to validate requirements related with it.
 ---
